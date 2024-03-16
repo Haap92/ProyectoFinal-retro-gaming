@@ -1,11 +1,12 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { colors } from "../global/colors";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import MapPreview from "../components/MapPreview";
 
 const MyProfile = ({ navigation }) => {
-    const { profileImage, imageCamera, location } = useSelector((state) => state.authReducer.value);
+    const { profileImage, imageCamera } = useSelector((state) => state.authReducer.value);
+    const { location } = useSelector((state) => state.authReducer.value);
     const { user, localId } = useSelector((state) => state.authReducer.value);
 
     return (

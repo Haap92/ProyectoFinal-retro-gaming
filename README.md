@@ -4,7 +4,7 @@
 
 ### Technologies & Languages:
 - [React Native](https://reactnative.dev/) - Version: 0.73.4.
-- [NodeJS](https://nodejs.org/es/) - Version: 20.11.0.
+- [NodeJS](https://nodejs.org/en) - Version: 20.11.0.
 - [Expo](https://expo.dev/) - Version: 50.0.6
 
 ### Instructions:

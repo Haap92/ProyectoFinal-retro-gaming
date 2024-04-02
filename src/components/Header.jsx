@@ -3,7 +3,7 @@ import { colors } from "../global/colors";
 import { MaterialIcons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../features/auth/authSlice";
-import { deleteSession } from "../db/index.js";
+import { deleteSession } from "../db/index";
 
 function Header({ title }) {
   const { user, localId} = useSelector(state => state.authReducer.value)
@@ -11,7 +11,7 @@ function Header({ title }) {
 
   const onLogout = async () => {
     dispatch(clearUser())
-    const deletedSession = await deleteSession({ localId });
+    await deleteSession({ localId });
   }
 
   return (

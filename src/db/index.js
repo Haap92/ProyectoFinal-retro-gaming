@@ -60,34 +60,3 @@ export const deleteSession = ({ localId }) => {
 
   return promise;
 };
-
-export const saveConfirmedOrder = (confirmedOrder) => {
-  const promise = new Promise((resolve, reject) => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        "INSERT OR REPLACE INTO confirmed_orders (key, value) VALUES (?, ?);",
-        ["confirmedOrder", confirmedOrder ? "true" : "false"],
-        (_, result) => resolve(result),
-        (_, error) => reject(error)
-      );
-    });
-  });
-  return promise;
-};
-
-export const getConfirmedOrder = () => {
-  const promise = new Promise((resolve, reject) => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        "SELECT value FROM confirmed_orders WHERE key = ?",
-        ["confirmedOrder"],
-        (_, result) => {
-          const value = result.rows.item(0)?.value === "true";
-          resolve(value); 
-        },
-        (_, error) => reject(error)
-      );
-    });
-  });
-  return promise;
-};

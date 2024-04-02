@@ -1,15 +1,16 @@
-import { Image, Pressable, StyleSheet, Text, View, Button } from "react-native";
+import { Image, Text, View } from "react-native";
 import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch, useSelector } from "react-redux";
-import { setCameraImage } from "../features/auth/authSlice";
+import { setCameraImage, setProfileImage } from "../features/auth/authSlice";
 import { usePostProfileImageMutation } from "../services/shopService";
-import { colors } from "../global/colors.js"
+import CustomButton from "./../components/CustomButton.jsx";
+import { commonStyles } from '../global/commonStyles';
 
 const ImageSelector = ({ navigation }) => {
   const [image, setImage] = useState(null);
-  const { localId } = useSelector((state) => state.authReducer.value);
-  const [triggerSaveProfileImage, result] = usePostProfileImageMutation();
+  const {localId} = useSelector((state) => state.authReducer.value);
+  const [triggerSaveProfileImage] = usePostProfileImageMutation();
   const dispatch = useDispatch();
 
   const verifyCameraPermissions = async () => {
@@ -26,7 +27,7 @@ const ImageSelector = ({ navigation }) => {
       let result = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
-        aspect: [9, 16],
+        aspect: [10, 10],
         base64: true,
         quality: 1,
       });
@@ -38,37 +39,39 @@ const ImageSelector = ({ navigation }) => {
   };
 
   const confirmImage = () => {
-    dispatch(setCameraImage(image));
+    dispatch(setCameraImage(image));    
+    dispatch(setProfileImage(image));
     triggerSaveProfileImage({ localId, image });
     navigation.goBack();
   };
 
   return (
-    <View style={styles.headerContainer}>
-        <View style={styles.container}>
+    <View style={commonStyles.headerContainer}>
+        <View style={commonStyles.container}>
         {image ? (
-            <View  style={styles.centerContainer}>
-                <Image source={{ uri: image }} style={styles.image} />
-                <Pressable onPress={pickImage}>
-                    <Text style={styles.text}>Take another photo</Text>
-                </Pressable>
-                <Pressable onPress={confirmImage}>
-                    <Text style={styles.text}>Confirm photo</Text>
-                </Pressable>
+            <View  style={commonStyles.centerContainer}>
+                <Image source={{ uri: image }} style={commonStyles.photo} />
+                <CustomButton
+                  title="Take another photo"
+                  onPress={pickImage}
+                />
+                <CustomButton
+                  title="Confirm photo"
+                  onPress={confirmImage}
+                />
             </View>
         ) : (
-            <View style={styles.noPhotoContainer}>
-                <Text style={styles.text}>No photo to show...</Text>
-                <Pressable onPress={pickImage}>
-                    <Text style={styles.text}>Take a photo</Text>
-                </Pressable>
+            <View style={commonStyles.noPhotoContainer}>
+                <Text style={commonStyles.text}>No photo to show...</Text>
+                <CustomButton
+                  title="Take a photo"
+                  onPress={pickImage}
+                />
             </View>
         )}
-        <Button 
-            style={styles.goBack}  
-            color={colors.mustard0} 
-            title="Go Back!!" 
-            onPress={() => navigation.goBack()} 
+        <CustomButton
+          title="Go Back!!"
+          onPress={() => navigation.goBack()}
         />
       </View>
     </View>
@@ -76,47 +79,3 @@ const ImageSelector = ({ navigation }) => {
 };
 
 export default ImageSelector;
-
-const styles = StyleSheet.create({
-    headerContainer: {
-        flex: 1,
-        width: "100%",
-        alignItems: "center",
-        backgroundColor: colors.grayScale0
-    },
-    container: {
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 20,
-        marginTop: 50
-    },
-    centerContainer:{
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    image: {
-        width: 200,
-        height: 200,
-    },
-    noPhotoContainer: {
-        width: 200,
-        height: 200,
-        borderWidth: 2,
-        borderColor: "white",
-        padding: 10,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    text: {
-        fontSize: 16,
-        color: colors.mustard0,
-        fontFamily: "oswaldRegular",
-        margin: 10
-    },
-    goBack:{
-      width: 100,
-      height: 50,
-      color: "white",
-      borderRadius: 25
-    }
-});

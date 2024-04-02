@@ -1,16 +1,15 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import TabNavigator from "./TabNavigator";
 import AuthStack from "./AuthStack";
 import { NavigationContainer } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetProfileImageQuery, useGetUserLocationQuery } from "../services/shopService";
 import { setProfileImage, setUserLocation, setUser } from "../features/auth/authSlice";
-import { fetchSession } from "../db/index.js";
+import { fetchSession } from "../db/index";
 
 const MainNavigator = () => {
   const {user, localId} = useSelector(state => state.authReducer.value)
-  const {data, isLoading, error} = useGetProfileImageQuery(localId);
+  const {data} = useGetProfileImageQuery(localId);
   const {data: location} = useGetUserLocationQuery(localId);
 
   const dispatch = useDispatch();
@@ -45,6 +44,3 @@ const MainNavigator = () => {
 };
 
 export default MainNavigator;
-
-const styles = StyleSheet.create({});
-

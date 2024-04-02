@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { View, FlatList, StyleSheet, Button } from "react-native";
+import { View, FlatList } from "react-native";
 import ProductItem from "../components/ProductItem";
 import Searchbar from "../components/Searchbar";
-import { colors } from "../global/colors.js"
 import { useSelector } from "react-redux";
 import { useGetProductsbyCategoryQuery } from "../services/shopService.js";
+import CustomButton from "./../components/CustomButton.jsx";
+import { commonStyles } from '../global/commonStyles';
 
 function ItemListCategories({ navigation }) {
   const [products, setProducts] = useState([]);
@@ -24,9 +25,9 @@ function ItemListCategories({ navigation }) {
   }, [productsFilteredByCategory, keyword]);
 
   return (
-    <View style={styles.headerContainer}>
+    <View style={commonStyles.headerContainer}>
       <Searchbar onSearch={setKeyword} />
-      <View style={styles.container}>
+      <View style={commonStyles.container}>
         <FlatList
           data={products}
           renderItem={({ item }) => (
@@ -36,13 +37,11 @@ function ItemListCategories({ navigation }) {
             />
           )}
           keyExtractor={(item) => item.id.toString()}
-          style={styles.flatList}
+          style={commonStyles.flatList}
         />
-        <Button 
-          style={styles.goBack}  
-          color={colors.mustard0} 
-          title="Go Back!!" 
-          onPress={() => navigation.goBack()} 
+        <CustomButton
+          title="Go Back!!"
+          onPress={() => navigation.goBack()}
         />
       </View>
     </View>
@@ -50,33 +49,3 @@ function ItemListCategories({ navigation }) {
 }
 
 export default ItemListCategories;
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    flex: 1,
-    width: "100%",
-    alignItems: "center",
-    backgroundColor: colors.grayScale0
-  },
-  searchbar:{
-    alignItems: "center",
-    backgroundColor: colors.grayScale1
-  },
-  container: {
-    flex: 1,
-    width: "80%",
-    paddingHorizontal: 20,
-    justifyContent: "center",
-    alignItems: "stretch",
-  },
-  flatList: {
-    flexGrow: 1,
-    width: '100%',
-  },
-  goBack:{
-    width: 100,
-    height: 50,
-    color: "white",
-    borderRadius: 25
-  }
-});

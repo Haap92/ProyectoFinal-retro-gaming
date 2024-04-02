@@ -29,14 +29,11 @@ export default Counter;
 const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
     width: "100%",
-    padding: 10,
   },
   buttonsContainer: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "left",
     alignItems: "center",
     width: "100%",
     marginBottom: 10,
@@ -64,6 +61,7 @@ const styles = StyleSheet.create({
     fontFamily: "oswaldRegular",
     color: "white",
     marginTop: -20,
+    marginLeft: -1.8,
     alignSelf: "center"
   },
 });

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import InputForm from "../components/InputForm";
 import { useSignUpMutation } from "../services/authService";
@@ -6,7 +6,7 @@ import SubmitButton from "../components/SubmitButton";
 import { useDispatch } from "react-redux";
 import { setUser } from "../features/auth/authSlice";
 import { signupSchema } from "../validations/signupSchema";
-import { colors } from "../global/colors.js"
+import { commonStyles } from '../global/commonStyles';
 
 const Signup = ({navigation}) => {
   const [email, setEmail] = useState("");
@@ -52,8 +52,8 @@ const Signup = ({navigation}) => {
   }, [result]);
 
   return (
-    <View style={styles.headerContainer}>
-      <View style={styles.container}>
+    <View style={commonStyles.headerContainer}>
+      <View style={commonStyles.container}>
         <InputForm label={"Email"} error={errorMail} onChange={setEmail} />
         <InputForm
           label={"Password"}
@@ -67,13 +67,13 @@ const Signup = ({navigation}) => {
           onChange={setConfirmPassword}
           isSecure={true}
         />
-        <View style={styles.buttonContainer}>
+        <View style={commonStyles.buttonContainer}>
           <SubmitButton title={"Register"} onPress={onSubmit} />
         </View>
-        <View style={styles.rowContainer}>
-        <Text style={styles.loginText}> Already hava an Account? </Text>
+        <View style={commonStyles.rowContainer}>
+        <Text style={commonStyles.loginText}> Already hava an Account? </Text>
         <Pressable onPress={() => navigation.navigate("Login")}>
-          <Text style={styles.linkText}>Login</Text>
+          <Text style={commonStyles.linkText}>Login</Text>
         </Pressable>
       </View>
       </View>
@@ -82,38 +82,3 @@ const Signup = ({navigation}) => {
 };
 
 export default Signup;
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    flex: 1,
-    width: "100%",
-    alignItems: "center",
-    backgroundColor: colors.grayScale0
-  },
-  container: {
-    flex: 1,
-    width: "100%",
-    marginTop: 30
-  },
-  rowContainer:{
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 30
-  },
-  buttonContainer:{
-    width: "100%",
-    alignItems: "center",
-    marginTop: 30
-  },
-  loginText: {
-    fontSize: 16,
-    color: "white",
-    fontFamily: "oswaldRegular",
-  },
-  linkText: {
-    fontSize: 16,
-    color: colors.mustard0,
-    fontFamily: "oswaldRegular",
-  }
-});

@@ -1,19 +1,20 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import * as Location from "expo-location";
-import { colors } from "../global/colors";
 import MapPreview from "../components/MapPreview";
 import { googleAPI } from "../firebase/googleAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserLocation } from "../features/auth/authSlice";
 import { usePostUserLocationMutation } from "../services/shopService";
+import CustomButton from "./../components/CustomButton.jsx";
+import { commonStyles } from '../global/commonStyles';
 
 const LocationSelector = ({ navigation }) => {
   const [location, setLocation] = useState({ latitude: "", longitude: "" });
   const [error, setError] = useState(null);
   const [address, setAddress] = useState(null);
-  const { localId } = useSelector((state) => state.authReducer.value);
-  const [triggerPostAddress, result] = usePostUserLocationMutation();
+  const {localId} = useSelector((state) => state.authReducer.value);
+  const [triggerPostAddress] = usePostUserLocationMutation();
 
   const dispatch = useDispatch();
 
@@ -58,22 +59,23 @@ const LocationSelector = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.headerContainer}>
-      <View style={styles.container}>
-        <Text style={styles.text}>My Adress</Text>
+    <View style={commonStyles.headerContainer}>
+      <View style={commonStyles.container}>
+        <Text style={commonStyles.text}>My Adress</Text>
         {location.latitude ? (
-          <View style={styles.noLocationContainer}>
-            <Text style={styles.text}>
+          <View style={commonStyles.noLocationContainer}>
+            <Text style={commonStyles.text}>
               Lat: {location.latitude}, long: {location.longitude}
             </Text>
             <MapPreview location={location} />
-            <Text style={styles.text}>{address}</Text>
-            <Pressable style={styles.button} onPress={onConfirmAddress}>
-              <Text style={styles.text}>Confirm Address</Text>
-            </Pressable>
+            <Text style={commonStyles.text}>{address}</Text>
+            <CustomButton
+              title="Confirm Address"
+              onPress={onConfirmAddress}
+            />
           </View>
         ) : (
-          <Text style={styles.text}>{error}</Text>
+          <Text style={commonStyles.text}>{error}</Text>
         )}
       </View>
     </View>
@@ -81,41 +83,3 @@ const LocationSelector = ({ navigation }) => {
 };
 
 export default LocationSelector;
-
-const styles = StyleSheet.create({
-  headerContainer: {
-      flex: 1,
-      width: "100%",
-      alignItems: "center",
-      backgroundColor: colors.grayScale0
-  },
-  container: {
-      alignItems: "center",
-      justifyContent: "center",
-      gap: 20,
-      marginTop: 50
-  },
-  centerContainer:{
-      alignItems: "center",
-      justifyContent: "center",
-  },
-  noLocationContainer: {
-    padding: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 10,
-  },
-  text: {
-      fontSize: 16,
-      color: colors.mustard0,
-      fontFamily: "oswaldRegular",
-      margin: 10
-  },
-  goBack:{
-    width: 100,
-    height: 50,
-    color: "white",
-    borderRadius: 25
-  }
-});
-

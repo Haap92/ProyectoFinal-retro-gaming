@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable, ActivityIndicator } from "react-native";
+import { Text, View, Pressable, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import InputForm from "../components/InputForm";
 import SubmitButton from "../components/SubmitButton";
@@ -6,8 +6,8 @@ import { useLoginMutation } from "../services/authService";
 import { useDispatch } from "react-redux";
 import { setUser } from "../features/auth/authSlice";
 import { loginSchema } from "../validations/loginSchema";
-import { colors } from "../global/colors.js"
-import { insertSession } from "../db/index.js";
+import { insertSession } from "../db/index";
+import { commonStyles } from '../global/commonStyles';
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -50,8 +50,8 @@ const Login = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.headerContainer}>
-      <View style={styles.container}>
+    <View style={commonStyles.headerContainer}>
+      <View style={commonStyles.container}>
         <InputForm label={"Email"} error={errorMail} onChange={setEmail} />
         <InputForm
           label={"Password"}
@@ -62,14 +62,14 @@ const Login = ({ navigation }) => {
         {result.isLoading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
-          <View style={styles.buttonContainer}>
+          <View style={commonStyles.buttonContainer}>
             <SubmitButton title={"Login"} onPress={onSubmit} />
           </View>
         )}
-        <View style={styles.rowContainer}>
-          <Text style={styles.loginText}> Don't hava an Account? </Text>
+        <View style={commonStyles.rowContainer}>
+          <Text style={commonStyles.loginText}> Don't hava an Account? </Text>
           <Pressable onPress={() => navigation.navigate("Signup")}>
-            <Text style={styles.linkText}>Register</Text>
+            <Text style={commonStyles.linkText}>Register</Text>
           </Pressable>
         </View>
       </View>
@@ -78,38 +78,3 @@ const Login = ({ navigation }) => {
 };
 
 export default Login;
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    flex: 1,
-    width: "100%",
-    alignItems: "center",
-    backgroundColor: colors.grayScale0
-  },
-  container: {
-    flex: 1,
-    width: "100%",
-    marginTop: 30
-  },
-  rowContainer:{
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 30
-  },
-  buttonContainer:{
-    width: "100%",
-    alignItems: "center",
-    marginTop: 30
-  },
-  loginText: {
-    fontSize: 16,
-    color: "white",
-    fontFamily: "oswaldRegular",
-  },
-  linkText: {
-    fontSize: 16,
-    color: colors.mustard0,
-    fontFamily: "oswaldRegular",
-  }
-});

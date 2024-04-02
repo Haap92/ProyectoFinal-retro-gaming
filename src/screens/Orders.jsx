@@ -1,47 +1,47 @@
-import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, View, Image, Text } from "react-native";
+import React, { useEffect } from "react";
+import { FlatList, View, Image, Text } from "react-native";
 import OrderItem from "../components/OrderItem";
-import { colors } from "../global/colors.js";
 import { useGetOrdersbyUserQuery } from "../services/shopService.js";
 import sad from "../../assets/sad.png"
 import { useSelector, useDispatch } from "react-redux";
 import { setOrders } from "../features/shop/ordersSlice.js";
+import { commonStyles } from '../global/commonStyles';
 
 const Orders = () => {
-  const {user, localId} = useSelector(state => state.authReducer.value)
+  const {user} = useSelector(state => state.authReducer.value)
   const orders = useSelector((state) => state.ordersReducer.value);
   const confirmedOrder = useSelector((state) => state.confirmedOrderReducer.value);
   const dispatch = useDispatch();
-  const { data: ordersByUser, isLoading, error, refetch } = useGetOrdersbyUserQuery(user.toString());
+  const { data: ordersByUser, refetch } = useGetOrdersbyUserQuery(user.toString());
 
   useEffect(() => {
     if (ordersByUser || confirmedOrder) {
-      refetch();
-      const sortedOrders = Object.values(ordersByUser).sort((a, b) => {
+      refetch()
+      const sortedOrders = ordersByUser ? Object.values(ordersByUser).sort((a, b) => {
         const dateA = new Date(a.orderCreatedAt);
         const dateB = new Date(b.orderCreatedAt);
         return dateB - dateA;
-      });
-
+      }) : [];
+  
       dispatch(setOrders(sortedOrders));
     }
   }, [ordersByUser, confirmedOrder]);
 
   return (
-    <View style={styles.headerContainer}>
-        <View style={styles.container}>
-        {orders && orders.length > 0 ? 
+    <View style={commonStyles.headerContainer}>
+        <View style={commonStyles.container}>
+        {orders !== undefined && orders.length > 0 ? 
           (
             <FlatList
               data={orders}
               renderItem={({ item }) => <OrderItem item={item} />}
               keyExtractor={(item) => item.orderId}
-              style={styles.flatList}
+              style={commonStyles.flatList}
             />
           ) : (
-            <View style={styles.spinnerContainer}>
-              <Image source={sad} style={styles.image} />
-              <Text style={styles.title}>Orders not available at this time.</Text>
+            <View style={commonStyles.spinnerContainer}>
+              <Image source={sad} style={commonStyles.image} />
+              <Text style={commonStyles.title}>Orders not available at this time.</Text>
             </View>
           )
         }
@@ -51,40 +51,3 @@ const Orders = () => {
 };
 
 export default Orders;
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    flex: 1,
-    width: "100%",
-    alignItems: "center",
-    backgroundColor: colors.grayScale0,
-  },
-  container: {
-    flex: 1,
-    width: "80%",
-    paddingHorizontal: 20,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  flatList: {
-    flexGrow: 1,
-    width: '100%',
-  },
-  spinnerContainer: {
-    padding: 20,
-    alignItems: "center",
-    backgroundColor: colors.grayScale0,
-  },
-  image: {
-      width: 200,
-      height: 200,
-      marginBottom: 10,
-  },
-  title: {
-      fontSize: 20,
-      fontWeight: "bold",
-      marginBottom: 10,
-      fontFamily: "oswaldRegular",
-      color: colors.mustard0
-  },
-});

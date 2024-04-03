@@ -4,7 +4,7 @@ import CategoryItem from "./CategoryItem";
 import { useGetCategoriesQuery } from "../services/shopService";
 
 const Categories = ({ navigation }) => {
-  const { data, isLoading, error } = useGetCategoriesQuery();
+  const { data } = useGetCategoriesQuery();
   return (
     <FlatList
       data={data}

@@ -1,5 +1,5 @@
 import { Image, Text, View } from "react-native";
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import MapPreview from "../components/MapPreview";
 import CustomButton from "./../components/CustomButton.jsx";
@@ -7,8 +7,8 @@ import { commonStyles } from '../global/commonStyles';
 
 const MyProfile = ({ navigation }) => {
     const { profileImage, imageCamera } = useSelector((state) => state.authReducer.value);
-    const { location } = useSelector((state) => state.authReducer.value);
-    const { user } = useSelector((state) => state.authReducer.value);
+    const {location} = useSelector((state) => state.authReducer.value);
+    const {user} = useSelector((state) => state.authReducer.value);
 
     return (
         <View style={commonStyles.headerContainer}>

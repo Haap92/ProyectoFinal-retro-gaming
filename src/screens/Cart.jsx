@@ -9,7 +9,7 @@ import { setConfirmedOrder } from "../features/shop/confirmedOrderSlice.js";
 import { commonStyles } from '../global/commonStyles';
 
 const Cart = ({ navigation }) => {
-    const {user, localId} = useSelector(state => state.authReducer.value)
+    const {user} = useSelector(state => state.authReducer.value)
     const cartItems = useSelector((state) => state.cartReducer.value.items);
     const total = useSelector((state) => state.cartReducer.value.total);
     const generateOrderId = () => {
@@ -19,7 +19,7 @@ const Cart = ({ navigation }) => {
     }
     const orderId = generateOrderId();
     const orderCreatedAt = new Date().toLocaleString();
-    const [triggerPost, result] = usePostOrderMutation();
+    const [triggerPost] = usePostOrderMutation();
     const dispatch = useDispatch();
 
     const confirmCart = ()=> {

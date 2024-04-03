@@ -2,6 +2,8 @@
 
 #### A mobile e-commerce App specialized in the sale of products associated with video games, developed in react native.
 
+![Retro Gaming](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDJnN2NpcWQ2bmI5cjRuOG1qdWx6MXhtMWRqemtrZzlnbTdieWNhOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/E1k7HqHig8dqIWZEOv/giphy.gif)
+
 
 ### Technologies & Languages:
 - [React Native](https://reactnative.dev/) - Version: 0.73.4. 
